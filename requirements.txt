@@ -1,5 +1,7 @@
 Flask
 pandas
+matplotlib
+seaborn
 numpy
 scikit-learn
 folium
