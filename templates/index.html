@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KMeans Clustering Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #333333;
+            text-shadow: 2px 2px #cccccc;
+        }
+        form {
+            text-align: center;
+            margin-top: 50px;
+            border: 1px solid #cccccc;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            width: 50%;
+            margin: 0 auto;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+            width: 50%;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+        p {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+            color: #333333;
+        }
+        #map {
+            height: 700px; /* Adjust height to increase map size */
+            width: 100%;
+            margin-top: 50px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 2px 2px 5px #cccccc;
+        }
+        .error-message {
+            color: red;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>KMeans Clustering Demo</h1>
+    <form method="POST">
+        <label for="lat">Latitude:</label>
+        <br>
+        <input type="text" name="lat" required><br>
+        <label for="lon">Longitude:</label>
+        <br>
+        <input type="text" name="lon" required><br>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <input type="submit" value="Submit">
+    </form>
+    {% if lat and lon %}
+        <p>Input latitude: {{ lat }}</p>
+        <p>Input longitude: {{ lon }}</p>
+    {% endif %}
+
+    {% if cluster is not none %}
+        {% if cluster == 0 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near New York.</p>
+        {% elif cluster == 1 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near Rikers Island.</p>
+        {% elif cluster == 2 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near Manhattan.</p>
+        {% elif cluster == 3 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near NY 25A.</p>
+        {% elif cluster == 4 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near Park Avenue.</p>
+        {% elif cluster == 5 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near John F Kennedy International Airport.</p>
+        {% elif cluster == 6 %}
+            <p>Predicted cluster: {{ cluster }}</p>
+            <p>Near Evergreen Cemetery.</p>
+        {% endif %}
+    {% endif %}
+
+    {% if map %}
+        <div id="map">{{ map|safe }}</div>
+    {% endif %}
+</body>
+</html>

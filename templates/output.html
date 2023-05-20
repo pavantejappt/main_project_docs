@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Uber Data Clustering</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Uber Data Clustering</h1>
+  <form method="POST" action="{{ url_for('predict') }}">
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latitude" name="latitude" required>
+    <br>
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longitude" name="longitude" required>
+    <br><br>
+    <button type="submit">Predict Cluster</button>
+  </form>
+  <br><br>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: {lat: 40.7589, lng: -73.9851} // default location - New York City
+      });
+      var labels = ['Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5'];
+      var colors = ['red', 'blue', 'green', 'cyan', 'magenta'];
+      {% if cluster_centers %}
+        {% for i in range(cluster_centers.shape[0]) %}
+          var center{{ i }} = new google.maps.Marker({
+            position: {lat: {{ cluster_centers[i][0] }}, lng: {{ cluster_centers[i][1] }}},
+            map: map,
+            label: labels[{{ i }}],
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 10,
+              fillColor: colors[{{ i }}],
+              fillOpacity: 1,
+              strokeWeight: 0
+            }
+          });
+        {% endfor %}
+      {% endif %}
+      {% if prediction %}
+        var marker = new google.maps.Marker({
+          position: {lat: {{ prediction[0] }}, lng: {{ prediction[1] }}},
+          map: map
+        });
+      {% endif %}
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+</body>
+</html>
